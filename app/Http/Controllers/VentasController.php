@@ -42,16 +42,26 @@ class VentasController extends Controller
       $CarritoBot = DB::table('carrito_botellas')->where('token','=',csrf_token())->where('seccion','=','Ventas')->get();
       $Total = 0;
       foreach($CarritoMob as $Mob){
-        $Total = $Total + $Mob->costo;
-      }
-      foreach($CarritoCos as $Cos){
-        $Total = $Total + $Cos->costo;
-      }
-      foreach($CarritoBot as $Bot){
-        $Total = $Total + $Bot->costo;
-      }
+          $Total = $Total + ($Mob->costo*$Mob->cantidad);
+        }
+        foreach($CarritoCos as $Cos){
+          $Total = $Total + ($Cos->costo*$Cos->cantidad);
+        }
+        foreach($CarritoBot as $Bot){
+          $Total = $Total + ($Bot->costo*$Bot->cantidad);
+        }
       return view('Inventario.Ventas.Vender', ['Mobiliario'=>$Mobiliario, 'Cocina'=>$Cocina, 'Botella'=>$Botella,
       'Carrito_Mob'=>$CarritoMob, 'Carrito_Cos'=>$CarritoCos, 'Carrito_Bot'=>$CarritoBot, 'Total'=>$Total, 'Cliente'=>$Cliente]);
+    }
+
+    public function GetBotellas(){
+      return DB::table('carrito_botellas')->where('token','=',csrf_token())->where('seccion','=','Ventas')->get();
+    }
+    public function GetCocina(){
+      return DB::table('carrito_cocina')->where('token','=',csrf_token())->where('seccion','=','Ventas')->get();
+    }
+    public function GetMob(){
+      return DB::table('carrito_mobiliario')->where('token','=',csrf_token())->where('seccion','=','Ventas')->get();
     }
 
     public function AgregarMob(Request $res){
@@ -193,13 +203,13 @@ class VentasController extends Controller
         //total
         $Total = 0;
         foreach($Carrito_Mob as $Mob){
-          $Total = $Total + $Mob->costo;
+          $Total = $Total + ($Mob->costo*$Mob->cantidad);
         }
         foreach($Carrito_Cos as $Cos){
-          $Total = $Total + $Cos->costo;
+          $Total = $Total + ($Cos->costo*$Cos->cantidad);
         }
         foreach($Carrito_Bot as $Bot){
-          $Total = $Total + $Bot->costo;
+          $Total = $Total + ($Bot->costo*$Bot->cantidad);
         }
         //endtotal
         $Compra = new Ventas;
@@ -234,14 +244,14 @@ class VentasController extends Controller
       $CarritoBot = DB::table('carrito_botellas')->where('token','=',csrf_token())->where('seccion','=','Ventas')->get();
       $Total = 0;
       foreach($CarritoMob as $Mob){
-        $Total = $Total + $Mob->costo;
-      }
-      foreach($CarritoCos as $Cos){
-        $Total = $Total + $Cos->costo;
-      }
-      foreach($CarritoBot as $Bot){
-        $Total = $Total + $Bot->costo;
-      }
+          $Total = $Total + ($Mob->costo*$Mob->cantidad);
+        }
+        foreach($CarritoCos as $Cos){
+          $Total = $Total + ($Cos->costo*$Cos->cantidad);
+        }
+        foreach($CarritoBot as $Bot){
+          $Total = $Total + ($Bot->costo*$Bot->cantidad);
+        }
       return view('Inventario.Ventas.Devolver', ['Mobiliario'=>$Mobiliario, 'Cocina'=>$Cocina, 'Botella'=>$Botella,
       'Carrito_Mob'=>$CarritoMob, 'Carrito_Cos'=>$CarritoCos, 'Carrito_Bot'=>$CarritoBot, 'Total'=>$Total, 'Cliente'=>$Cliente]);
     }
@@ -312,13 +322,13 @@ class VentasController extends Controller
         //total
         $Total = 0;
         foreach($Carrito_Mob as $Mob){
-          $Total = $Total + $Mob->costo;
+          $Total = $Total + ($Mob->costo*$Mob->cantidad);
         }
         foreach($Carrito_Cos as $Cos){
-          $Total = $Total + $Cos->costo;
+          $Total = $Total + ($Cos->costo*$Cos->cantidad);
         }
         foreach($Carrito_Bot as $Bot){
-          $Total = $Total + $Bot->costo;
+          $Total = $Total + ($Bot->costo*$Bot->cantidad);
         }
         //endtotal
         $Compra = new VentasDev;
@@ -353,14 +363,14 @@ class VentasController extends Controller
       $CarritoBot = DB::table('carrito_botellas')->where('token','=',csrf_token())->where('seccion','=','Ventas')->get();
       $Total = 0;
       foreach($CarritoMob as $Mob){
-        $Total = $Total + $Mob->costo;
-      }
-      foreach($CarritoCos as $Cos){
-        $Total = $Total + $Cos->costo;
-      }
-      foreach($CarritoBot as $Bot){
-        $Total = $Total + $Bot->costo;
-      }
+          $Total = $Total + ($Mob->costo*$Mob->cantidad);
+        }
+        foreach($CarritoCos as $Cos){
+          $Total = $Total + ($Cos->costo*$Cos->cantidad);
+        }
+        foreach($CarritoBot as $Bot){
+          $Total = $Total + ($Bot->costo*$Bot->cantidad);
+        }
       return view('Inventario.Ventas.Cotizar', ['Mobiliario'=>$Mobiliario, 'Cocina'=>$Cocina, 'Botella'=>$Botella,
       'Carrito_Mob'=>$CarritoMob, 'Carrito_Cos'=>$CarritoCos, 'Carrito_Bot'=>$CarritoBot, 'Total'=>$Total, 'Cliente'=>$Cliente]);
     }
@@ -422,13 +432,13 @@ class VentasController extends Controller
         //total
         $Total = 0;
         foreach($Carrito_Mob as $Mob){
-          $Total = $Total + $Mob->costo;
+          $Total = $Total + ($Mob->costo*$Mob->cantidad);
         }
         foreach($Carrito_Cos as $Cos){
-          $Total = $Total + $Cos->costo;
+          $Total = $Total + ($Cos->costo*$Cos->cantidad);
         }
         foreach($Carrito_Bot as $Bot){
-          $Total = $Total + $Bot->costo;
+          $Total = $Total + ($Bot->costo*$Bot->cantidad);
         }
         //endtotal
         $Compra = new VentasCot;
@@ -518,13 +528,13 @@ class VentasController extends Controller
         //total
         $Total = 0;
         foreach($Carrito_Mob as $Mob){
-          $Total = $Total + $Mob->costo;
+          $Total = $Total + ($Mob->costo*$Mob->cantidad);
         }
         foreach($Carrito_Cos as $Cos){
-          $Total = $Total + $Cos->costo;
+          $Total = $Total + ($Cos->costo*$Cos->cantidad);
         }
         foreach($Carrito_Bot as $Bot){
-          $Total = $Total + $Bot->costo;
+          $Total = $Total + ($Bot->costo*$Bot->cantidad);
         }
         //endtotal
         $Compra = new PorCobrar;
@@ -550,5 +560,334 @@ class VentasController extends Controller
       $CompraBot = DB::table('venta_bot')->where('id_factura','=',$Factura)->where('estado','=','PorCobrar')->get();
       $Cliente = DB::table('clientes')->where('id_cliente','=',$Compra->id_cliente)->first();
       return view('Factura.VentaOrdenCobrar', ['Compra'=>$Compra, 'Mobiliario'=>$CompraMob, 'Cocina'=>$CompraCos, 'Botella'=>$CompraBot, 'Cliente'=>$Cliente]);
+    }
+
+    public function GetTotalVendido($id){
+       $Factura = Ventas::findOrFail($id);
+      $CompraMob = DB::table('venta_mob')->where('id_factura','=',$Factura->id_ventas)->where('estado','=','Vendido')->get();
+      $CompraCos = DB::table('venta_cos')->where('id_factura','=',$Factura->id_ventas)->where('estado','=','Vendido')->get();
+      $CompraBot = DB::table('venta_bot')->where('id_factura','=',$Factura->id_ventas)->where('estado','=','Vendido')->get();
+      $Total = 0;
+      foreach ($CompraMob as $mob) {
+        $Total = $Total + ($mob->costo*$mob->cantidad);
+      }
+      foreach ($CompraCos as $cos) {
+        $Total = $Total + ($cos->costo*$cos->cantidad);
+      }
+      foreach ($CompraBot as $bot) {
+        $Total = $Total + ($bot->costo*$bot->cantidad);
+      }
+      return $Total;
+    }
+
+    public function EditarOrdenVenta($id){
+      $Compra = Ventas::findOrFail($id);
+      $CompraMob = DB::table('venta_mob')->where('id_factura','=',$id)->where('estado','=','Vendido')->get();
+      $CompraCos = DB::table('venta_cos')->where('id_factura','=',$id)->where('estado','=','Vendido')->get();
+      $CompraBot = DB::table('venta_bot')->where('id_factura','=',$id)->where('estado','=','Vendido')->get();
+      $Cliente = DB::table('clientes')->where('id_cliente','=',$Compra->id_cliente)->first();
+      return view('Factura.Editor.VentaOrden', ['Compra'=>$Compra, 'Mobiliario'=>$CompraMob, 'Cocina'=>$CompraCos, 'Botella'=>$CompraBot, 'Cliente'=>$Cliente]);
+    }
+
+
+    //this
+    public function EditarOrdenVentaGuardar(Request $res){
+      $Mob = VentaMob::findOrFail($res->get("id"));
+      $InvMob = Mobiliario::findOrFail($Mob->id_mob);
+      if($Mob->cantidad > $res->get("cantidad")){
+        $InvMob->existencia = $InvMob->existencia + ($Mob->cantidad-$res->get("cantidad"));
+      }else{
+        $InvMob->existencia = $InvMob->existencia - ($Mob->cantidad-$res->get("cantidad"));
+      }
+      $InvMob->update();
+      $Mob->cantidad = $res->get("cantidad");
+      $Mob->costo = $res->get("costo");
+      $Mob->update();
+      $Factura = Ventas::findOrFail($res->get("factura"))->id_ventas;
+      $CompraMob = DB::table('venta_mob')->where('id_factura','=',$Factura)->where('estado','=','Vendido')->get();
+      $CompraCos = DB::table('venta_cos')->where('id_factura','=',$Factura)->where('estado','=','Vendido')->get();
+      $CompraBot = DB::table('venta_bot')->where('id_factura','=',$Factura)->where('estado','=','Vendido')->get();
+      $Total = 0;
+      foreach ($CompraMob as $mob) {
+        $Total = $Total + ($mob->costo*$mob->cantidad);
+      }
+      foreach ($CompraCos as $cos) {
+        $Total = $Total + ($cos->costo*$cos->cantidad);
+      }
+      foreach ($CompraBot as $bot) {
+        $Total = $Total + ($bot->costo*$bot->cantidad);
+      }
+      $SaveFactura = Ventas::findOrFail($Factura);
+      $SaveFactura->total = $Total;
+      $SaveFactura->update();
+    }
+    public function EditarOrdenVentaEliminar(Request $res){
+      $CompraMob = VentaMob::findOrFail($res->get("id"));
+      $InvMob = Mobiliario::findOrFail($CompraMob->id_mob);
+      if($CompraMob->cantidad > $res->get("cantidad")){
+        $InvMob->existencia = $InvMob->existencia + ($CompraMob->cantidad-$res->get("cantidad"));
+      }else{
+        $InvMob->existencia = $InvMob->existencia - ($CompraMob->cantidad-$res->get("cantidad"));
+      }
+      $InvMob->update();
+      $Factura = Ventas::findOrFail($res->get("factura"));
+      $Factura->total = $Factura->total - ($CompraMob->cantidad*$CompraMob->costo);
+      $CompraMob->delete();
+      $Factura->update();
+      
+    }
+
+    public function EditarOrdenCos(Request $res){
+      $Cos = VentaCos::findOrFail($res->get("id"));
+      $InvCos = Cocina::findOrFail($Cos->id_cos);
+      if($Cos->cantidad > $res->get("cantidad")){
+        $InvCos->existencia = $InvCos->existencia + ($Cos->cantidad-$res->get("cantidad"));
+      }else{
+        $InvCos->existencia = $InvCos->existencia - ($Cos->cantidad-$res->get("cantidad"));
+      }
+      $InvCos->update();
+      $Cos->cantidad = $res->get("cantidad");
+      $Cos->costo = $res->get("costo");
+      $Cos->update();
+      $Factura = Ventas::findOrFail($res->get("factura"));
+      $CompraMob = DB::table('venta_mob')->where('id_factura','=',$Factura->id_ventas)->get();
+      $CompraCos = DB::table('venta_cos')->where('id_factura','=',$Factura->id_ventas)->get();
+      $CompraBot = DB::table('venta_bot')->where('id_factura','=',$Factura->id_ventas)->get();
+      $Total = 0;
+      foreach ($CompraMob as $mob) {
+        $Total = $Total + ($mob->costo*$mob->cantidad);
+      }
+      foreach ($CompraCos as $cos) {
+        $Total = $Total + ($cos->costo*$cos->cantidad);
+      }
+      foreach ($CompraBot as $bot) {
+        $Total = $Total + ($bot->costo*$bot->cantidad);
+      }
+      $Factura->total = $Total;
+      $Factura->update();
+    }
+
+    public function EditarOrdenCosDel(Request $res){
+      $Cos = VentaCos::findOrFail($res->get("id"));
+      $InvCos = Cocina::findOrFail($Cos->id_cos);
+      if($Cos->cantidad > $res->get("cantidad")){
+        $InvCos->existencia = $InvCos->existencia + ($Cos->cantidad-$res->get("cantidad"));
+      }else{
+        $InvCos->existencia = $InvCos->existencia - ($Cos->cantidad-$res->get("cantidad"));
+      }
+      $InvCos->update();
+      $Factura = Ventas::findOrFail($res->get("factura"));
+      $Factura->total = $Factura->total - ($Cos->cantidad*$Cos->costo);
+      $Cos->delete();
+      $Factura->update();
+    }
+
+    public function EditarOrdenBot(Request $res){
+      $Bot = VentaBot::findOrFail($res->get("id"));
+      $InvBot = Botellas::findOrFail($Bot->id_botella);
+      if($Bot->cantidad > $res->get("cantidad")){
+        $InvBot->existencia = $InvBot->existencia + ($Bot->cantidad-$res->get("cantidad"));
+      }else{
+        $InvBot->existencia = $InvBot->existencia - ($Bot->cantidad-$res->get("cantidad"));
+      }
+      $InvBot->update();
+      $Bot->cantidad = $res->get("cantidad");
+      $Bot->costo = $res->get("costo");
+      $Bot->update();
+      $Factura = Ventas::findOrFail($res->get("factura"));
+      $CompraMob = DB::table('venta_mob')->where('id_factura','=',$Factura->id_ventas)->where('estado','=','Vendido')->get();
+      $CompraCos = DB::table('venta_cos')->where('id_factura','=',$Factura->id_ventas)->where('estado','=','Vendido')->get();
+      $CompraBot = DB::table('venta_bot')->where('id_factura','=',$Factura->id_ventas)->where('estado','=','Vendido')->get();
+      $Total = 0;
+      foreach ($CompraMob as $mob) {
+        $Total = $Total + ($mob->costo*$mob->cantidad);
+      }
+      foreach ($CompraCos as $cos) {
+        $Total = $Total + ($cos->costo*$cos->cantidad);
+      }
+      foreach ($CompraBot as $bot) {
+        $Total = $Total + ($bot->costo*$bot->cantidad);
+      }
+      $Factura->total = $Total;
+      $Factura->update();
+    }
+
+    public function EditarOrdenBotDel(Request $res){
+      $Bot = VentaBot::findOrFail($res->get("id"));
+      $InvBot = Botellas::findOrFail($Bot->id_botella);
+      if($Bot->cantidad > $res->get("cantidad")){
+        $InvBot->existencia = $InvBot->existencia + ($Bot->cantidad-$res->get("cantidad"));
+      }else{
+        $InvBot->existencia = $InvBot->existencia - ($Bot->cantidad-$res->get("cantidad"));
+      }
+      $InvBot->update();
+      $Factura = Ventas::findOrFail($res->get("factura"));
+      $Factura->total = $Factura->total - ($Bot->cantidad*$Bot->costo);
+      $Bot->delete();
+      $Factura->update();
+    }
+
+    //this
+
+    public function EditarOrdenVentaGuardarCobrar(Request $res){
+      $Mob = VentaMob::findOrFail($res->get("id"));
+      $InvMob = Mobiliario::findOrFail($Mob->id_mob);
+      if($Mob->cantidad > $res->get("cantidad")){
+        $InvMob->existencia = $InvMob->existencia + ($Mob->cantidad-$res->get("cantidad"));
+      }else{
+        $InvMob->existencia = $InvMob->existencia - ($Mob->cantidad-$res->get("cantidad"));
+      }
+      $InvMob->update();
+      $Mob->cantidad = $res->get("cantidad");
+      $Mob->costo = $res->get("costo");
+      $Mob->update();
+      $Factura = PorCobrar::findOrFail($res->get("factura"))->id_ventas;
+      $CompraMob = DB::table('venta_mob')->where('id_factura','=',$Factura)->where('estado','=','PorCobrar')->get();
+      $CompraCos = DB::table('venta_cos')->where('id_factura','=',$Factura)->where('estado','=','PorCobrar')->get();
+      $CompraBot = DB::table('venta_bot')->where('id_factura','=',$Factura)->where('estado','=','PorCobrar')->get();
+      $Total = 0;
+      foreach ($CompraMob as $mob) {
+        $Total = $Total + ($mob->costo*$mob->cantidad);
+      }
+      foreach ($CompraCos as $cos) {
+        $Total = $Total + ($cos->costo*$cos->cantidad);
+      }
+      foreach ($CompraBot as $bot) {
+        $Total = $Total + ($bot->costo*$bot->cantidad);
+      }
+      $SaveFactura = PorCobrar::findOrFail($Factura);
+      $SaveFactura->total = $Total;
+      $SaveFactura->update();
+    }
+    public function EditarOrdenVentaEliminarCobrar(Request $res){
+      $CompraMob = VentaMob::findOrFail($res->get("id"));
+      $InvMob = Mobiliario::findOrFail($CompraMob->id_mob);
+      if($CompraMob->cantidad > $res->get("cantidad")){
+        $InvMob->existencia = $InvMob->existencia + ($CompraMob->cantidad-$res->get("cantidad"));
+      }else{
+        $InvMob->existencia = $InvMob->existencia - ($CompraMob->cantidad-$res->get("cantidad"));
+      }
+      $InvMob->update();
+      $Factura = PorCobrar::findOrFail($res->get("factura"));
+      $Factura->total = $Factura->total - ($CompraMob->cantidad*$CompraMob->costo);
+      $CompraMob->delete();
+      $Factura->update();
+    }
+
+    public function EditarOrdenCosCobrar(Request $res){
+      $Cos = VentaCos::findOrFail($res->get("id"));
+      $InvCos = Cocina::findOrFail($Cos->id_cos);
+      if($Cos->cantidad > $res->get("cantidad")){
+        $InvCos->existencia = $InvCos->existencia + ($Cos->cantidad-$res->get("cantidad"));
+      }else{
+        $InvCos->existencia = $InvCos->existencia - ($Cos->cantidad-$res->get("cantidad"));
+      }
+      $InvCos->update();
+      $Cos->cantidad = $res->get("cantidad");
+      $Cos->costo = $res->get("costo");
+      $Cos->update();
+      $Factura = PorCobrar::findOrFail($res->get("factura"));
+      $CompraMob = DB::table('venta_mob')->where('id_factura','=',$Factura->id_ventas)->get();
+      $CompraCos = DB::table('venta_cos')->where('id_factura','=',$Factura->id_ventas)->get();
+      $CompraBot = DB::table('venta_bot')->where('id_factura','=',$Factura->id_ventas)->get();
+      $Total = 0;
+      foreach ($CompraMob as $mob) {
+        $Total = $Total + ($mob->costo*$mob->cantidad);
+      }
+      foreach ($CompraCos as $cos) {
+        $Total = $Total + ($cos->costo*$cos->cantidad);
+      }
+      foreach ($CompraBot as $bot) {
+        $Total = $Total + ($bot->costo*$bot->cantidad);
+      }
+      $Factura->total = $Total;
+      $Factura->update();
+    }
+
+    public function EditarOrdenCosDelCobrar(Request $res){
+      $Cos = VentaCos::findOrFail($res->get("id"));
+      $InvCos = Cocina::findOrFail($Cos->id_cos);
+      if($Cos->cantidad > $res->get("cantidad")){
+        $InvCos->existencia = $InvCos->existencia + ($Cos->cantidad-$res->get("cantidad"));
+      }else{
+        $InvCos->existencia = $InvCos->existencia - ($Cos->cantidad-$res->get("cantidad"));
+      }
+      $InvCos->update();
+      $Factura = PorCobrar::findOrFail($res->get("factura"));
+      $Factura->total = $Factura->total - ($Cos->cantidad*$Cos->costo);
+      $Cos->delete();
+      $Factura->update();
+    }
+
+    public function EditarOrdenBotCobrar(Request $res){
+      $Bot = VentaBot::findOrFail($res->get("id"));
+      $InvBot = Botellas::findOrFail($Bot->id_botella);
+      if($Bot->cantidad > $res->get("cantidad")){
+        $InvBot->existencia = $InvBot->existencia + ($Bot->cantidad-$res->get("cantidad"));
+      }else{
+        $InvBot->existencia = $InvBot->existencia - ($Bot->cantidad-$res->get("cantidad"));
+      }
+      $InvBot->update();
+      $Bot->cantidad = $res->get("cantidad");
+      $Bot->costo = $res->get("costo");
+      $Bot->update();
+      $Factura = PorCobrar::findOrFail($res->get("factura"));
+      $CompraMob = DB::table('venta_mob')->where('id_factura','=',$Factura->id_ventas)->where('estado','=','PorCobrar')->get();
+      $CompraCos = DB::table('venta_cos')->where('id_factura','=',$Factura->id_ventas)->where('estado','=','PorCobrar')->get();
+      $CompraBot = DB::table('venta_bot')->where('id_factura','=',$Factura->id_ventas)->where('estado','=','PorCobrar')->get();
+      $Total = 0;
+      foreach ($CompraMob as $mob) {
+        $Total = $Total + ($mob->costo*$mob->cantidad);
+      }
+      foreach ($CompraCos as $cos) {
+        $Total = $Total + ($cos->costo*$cos->cantidad);
+      }
+      foreach ($CompraBot as $bot) {
+        $Total = $Total + ($bot->costo*$bot->cantidad);
+      }
+      $Factura->total = $Total;
+      $Factura->update();
+    }
+
+    public function EditarOrdenBotDelCobrar(Request $res){
+      $Bot = VentaBot::findOrFail($res->get("id"));
+      $InvBot = Botellas::findOrFail($Bot->id_botella);
+      if($Bot->cantidad > $res->get("cantidad")){
+        $InvBot->existencia = $InvBot->existencia + ($Bot->cantidad-$res->get("cantidad"));
+      }else{
+        $InvBot->existencia = $InvBot->existencia - ($Bot->cantidad-$res->get("cantidad"));
+      }
+      $InvBot->update();
+      $Factura = PorCobrar::findOrFail($res->get("factura"));
+      $Factura->total = $Factura->total - ($Bot->cantidad*$Bot->costo);
+      $Bot->delete();
+      $Factura->update();
+    }
+
+    public function EditarOrdenCobrar($id){
+      $Compra = PorCobrar::findOrFail($id);
+      $CompraMob = DB::table('venta_mob')->where('id_factura','=',$id)->where('estado','=','PorCobrar')->get();
+      $CompraCos = DB::table('venta_cos')->where('id_factura','=',$id)->where('estado','=','PorCobrar')->get();
+      $CompraBot = DB::table('venta_bot')->where('id_factura','=',$id)->where('estado','=','PorCobrar')->get();
+      $Cliente = DB::table('clientes')->where('id_cliente','=',$Compra->id_cliente)->first();
+      return view('Factura.Editor.VentaOrdenCobrar', ['Compra'=>$Compra, 'Mobiliario'=>$CompraMob, 'Cocina'=>$CompraCos, 'Botella'=>$CompraBot, 'Cliente'=>$Cliente]);
+    }
+
+    public function GetTotalVendidoCobrar($id){
+       $Factura = PorCobrar::findOrFail($id);
+      $CompraMob = DB::table('venta_mob')->where('id_factura','=',$Factura->id_ventas)->where('estado','=','PorCobrar')->get();
+      $CompraCos = DB::table('venta_cos')->where('id_factura','=',$Factura->id_ventas)->where('estado','=','PorCobrar')->get();
+      $CompraBot = DB::table('venta_bot')->where('id_factura','=',$Factura->id_ventas)->where('estado','=','PorCobrar')->get();
+      $Total = 0;
+      foreach ($CompraMob as $mob) {
+        $Total = $Total + ($mob->costo*$mob->cantidad);
+      }
+      foreach ($CompraCos as $cos) {
+        $Total = $Total + ($cos->costo*$cos->cantidad);
+      }
+      foreach ($CompraBot as $bot) {
+        $Total = $Total + ($bot->costo*$bot->cantidad);
+      }
+      return $Total;
     }
 }

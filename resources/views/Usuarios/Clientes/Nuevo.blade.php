@@ -25,13 +25,13 @@
 		<label>Domicilio</label>
 		<div class="input-group">
 			<span class="input-group-addon"><i class="fa fa-tags"></i></span>
-			<input type="text" name="domicilio" class="form-control" placeholder="Domicilio del Cliente..." required>
+			<input type="text" name="domicilio" class="form-control" placeholder="Domicilio del Cliente...">
 		</div>
 		<br>
 		<label>Telefono</label>
 		<div class="input-group">
 			<span class="input-group-addon"><i class="fa fa-tags"></i></span>
-			<input type="text" name="telefono" class="form-control" placeholder="Telefono del Cliente..." required>
+			<input type="text" name="telefono" class="form-control" placeholder="Telefono del Cliente...">
 		</div>
     <br>
     <label>Correo</label>

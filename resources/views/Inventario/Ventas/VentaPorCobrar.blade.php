@@ -9,7 +9,7 @@
                 <h4 class="modal-title">Abono a la Cuenta</h4>
 			</div>
 			<div class="modal-body">
-          <h3>Debe: $<?= number_format($Total) ?></h3>
+          <h3 id="TotalPC"></h3>
           <h4>Abono:</h4>
           <div class="input-group input-group-sm">
             {!!Form::open(array('url'=>'Ventas/Vender/PorCobrar','method'=>'POST','autocomplete'=>'off'))!!}
@@ -30,3 +30,6 @@
 			</div>
 		</div>
 	</div>
+  <script type="text/javascript">
+    document.getElementById('TotalPC').value = document.getElementById('btnVender').value;
+  </script>

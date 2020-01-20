@@ -3,6 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use App\Ventas;
+use App\Compras;
+use App\VentaMob;
+use App\VentaCos;
+use App\VentaBot;
+use App\Mobiliario;
+use App\Cocina;
+use App\Botellas;
+use App\PorCobrar;
+use App\CompraMob;
+use App\CompraCos;
+use App\CompraBot;
 use DB;
 
 class ReportesController extends Controller
@@ -103,5 +116,138 @@ class ReportesController extends Controller
       $Total_Ventas = $Total_Ventas + ($vn->costo*$vn->cantidad);
     }
     return view('Inventario.Reportes.Resumen', ['Producto_Botella'=>$Botella, 'Total_Compras'=>$Total_Compras, 'Total_Ventas'=>$Total_Ventas]);
+  }
+
+  public function EliminarVenta($id){
+    $Venta = Ventas::findOrFail($id);
+    $VentaMob = DB::table('venta_mob')->where('id_factura','=',$Venta->id_ventas)->where('estado','=','Vendido')->get();
+    $VentaCos = DB::table('venta_cos')->where('id_factura','=',$Venta->id_ventas)->where('estado','=','Vendido')->get();
+    $VentaBot = DB::table('venta_bot')->where('id_factura','=',$Venta->id_ventas)->where('estado','=','Vendido')->get();
+    foreach ($VentaMob as $mob) {
+      $RM = VentaMob::findOrFail($mob->id_venta);
+      $ADD = Mobiliario::findOrFail($mob->id_mob);
+      $ADD->existencia = $ADD->existencia + $mob->cantidad;
+      $ADD->update();
+      $RM->delete();
+    }
+    foreach ($VentaCos as $cos) {
+      $RM = VentaCos::findOrFail($cos->id_venta);
+      $ADD = Cocina::findOrFail($cos->id_cos);
+      $ADD->existencia = $ADD->existencia + $cos->cantidad;
+      $ADD->update();
+      $RM->delete();
+    }
+    foreach ($VentaBot as $bot) {
+      $RM = VentaBot::findOrFail($bot->id_venta);
+      $ADD = Botellas::findOrFail($bot->id_botella);
+      $ADD->existencia = $ADD->existencia + $bot->cantidad;
+      $ADD->update();
+      $RM->delete();
+    }
+    $Venta->delete();
+    return Redirect::back();
+  }
+
+  public function MoverVentaPorCobrar($id){
+    $Venta = Ventas::findOrFail($id);
+    $VentaMob = DB::table('venta_mob')->where('id_factura','=',$id)->where('estado','=','Vendido')->get();
+    $VentaCos = DB::table('venta_cos')->where('id_factura','=',$id)->where('estado','=','Vendido')->get();
+    $VentaBot = DB::table('venta_bot')->where('id_factura','=',$id)->where('estado','=','Vendido')->get();
+
+    $PorCobrar = new PorCobrar;
+    $PorCobrar->id_cliente = $Venta->id_cliente;
+    $PorCobrar->nombre_cliente = $Venta->nombre_cliente;
+    $PorCobrar->fecha = $Venta->fecha;
+    $PorCobrar->total = $Venta->total;
+    $PorCobrar->abonado = 0;
+    $PorCobrar->save();
+
+    foreach ($VentaMob as $mob) {
+      $VM = VentaMob::findOrFail($mob->id_venta);
+      $VM->estado = "PorCobrar";
+      $VM->id_factura = $PorCobrar->id_ventas;
+      $VM->update();
+    }
+    foreach ($VentaCos as $cos) {
+      $VC = VentaCos::findOrFail($cos->id_venta);
+      $VC->estado = "PorCobrar";
+      $VC->id_factura = $PorCobrar->id_ventas;
+      $VC->update();
+    }
+    foreach ($VentaBot as $bot) {
+      $VB = VentaBot::findOrFail($bot->id_venta);
+      $VB->estado = "PorCobrar";
+      $VB->id_factura = $PorCobrar->id_ventas;
+      $VB->update();
+    }
+    $Venta->delete();
+
+    return view('Factura.VentaPorCobrar', ['Factura'=>$PorCobrar, 'Debe'=>$PorCobrar->abonado]);
+  }
+
+  public function MoverPorCobrarVenta($id){
+    $Venta = PorCobrar::findOrFail($id);
+    $VentaMob = DB::table('venta_mob')->where('id_factura','=',$id)->where('estado','=','PorCobrar')->get();
+    $VentaCos = DB::table('venta_cos')->where('id_factura','=',$id)->where('estado','=','PorCobrar')->get();
+    $VentaBot = DB::table('venta_bot')->where('id_factura','=',$id)->where('estado','=','PorCobrar')->get();
+
+    $Ventas = new Ventas;
+    $Ventas->id_cliente = $Venta->id_cliente;
+    $Ventas->nombre_cliente = $Venta->nombre_cliente;
+    $Ventas->fecha = $Venta->fecha;
+    $Ventas->total = $Venta->total;
+    $Ventas->save();
+
+    foreach ($VentaMob as $mob) {
+      $VM = VentaMob::findOrFail($mob->id_venta);
+      $VM->estado = "Vendido";
+      $VM->id_factura = $Ventas->id_ventas;
+      $VM->update();
+    }
+    foreach ($VentaCos as $cos) {
+      $VC = VentaCos::findOrFail($cos->id_venta);
+      $VC->estado = "Vendido";
+      $VC->id_factura = $Ventas->id_ventas;
+      $VC->update();
+    }
+    foreach ($VentaBot as $bot) {
+      $VB = VentaBot::findOrFail($bot->id_venta);
+      $VB->estado = "Vendido";
+      $VB->id_factura = $Ventas->id_ventas;
+      $VB->update();
+    }
+    $Venta->delete();
+
+    return view('Factura.Venta', ['Factura'=>$Ventas]);
+  }
+
+  public function EliminarCompra($id){
+    $Venta = Compras::findOrFail($id);
+    $VentaMob = DB::table('compra_mob')->where('id_factura','=',$Venta->id_ventas)->where('estado','=','Comprado')->get();
+    $VentaCos = DB::table('compra_cos')->where('id_factura','=',$Venta->id_ventas)->where('estado','=','Comprado')->get();
+    $VentaBot = DB::table('compra_bot')->where('id_factura','=',$Venta->id_ventas)->where('estado','=','Comprado')->get();
+    foreach ($VentaMob as $mob) {
+      $RM = CompraMob::findOrFail($mob->id_venta);
+      $ADD = Mobiliario::findOrFail($mob->id_mob);
+      $ADD->existencia = $ADD->existencia - $mob->cantidad;
+      $ADD->update();
+      $RM->delete();
+    }
+    foreach ($VentaCos as $cos) {
+      $RM = CompraCos::findOrFail($cos->id_venta);
+      $ADD = Cocina::findOrFail($cos->id_cos);
+      $ADD->existencia = $ADD->existencia - $cos->cantidad;
+      $ADD->update();
+      $RM->delete();
+    }
+    foreach ($VentaBot as $bot) {
+      $RM = CompraBot::findOrFail($bot->id_venta);
+      $ADD = Botellas::findOrFail($bot->id_botella);
+      $ADD->existencia = $ADD->existencia - $bot->cantidad;
+      $ADD->update();
+      $RM->delete();
+    }
+    $Venta->delete();
+    return Redirect::back();
   }
 }

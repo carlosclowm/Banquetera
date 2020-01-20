@@ -23,6 +23,8 @@
 <div class="nav-tabs-custom">
     <div class="nav nav-tabs pull-right">
   		<li class="pull-left header">Reportes Compras</li>
+      <li><a href="/Cuentas">Por Cobrar</a></li>
+      <li><a href="/Cuentas/PorPagar">Por Pagar</a></li>
       <li><a href="/Resumen">Resumen</a></li>
   		<li><a href="/Reportes/Ventas">Ventas</a></li>
   		<li class="active"><a href="/Reportes" data-toggle="tab">Compras</a></li>
@@ -60,7 +62,7 @@
                   <td>{{$cp->fecha}}</td>
                   <td>${{$cp->total}}</td>
                   <td>{{$cp->nombre_proveedor}}</td>
-                  <td> <a href="/Nota/{{$cp->id_compras}}" class="btn btn-info">Nota</a> </td>
+                  <td> <a href="/Nota/{{$cp->id_compras}}" class="btn btn-info">Nota</a> <a href="/Nota/Eliminar/{{$cp->id_compras}}" class="btn btn-danger">Borrar</a> </td>
                 </tr>
                 @endforeach
               </tbody>

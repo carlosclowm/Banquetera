@@ -3,8 +3,11 @@
 <div class="nav-tabs-custom">
     <div class="nav nav-tabs pull-right">
   		<li class="pull-left header">Cuentas Por Cobrar</li>
+      <li class="active"><a href="/Cuentas/PorCobrar" data-toggle="tab">Por Cobrar</a></li>
   		<li><a href="/Cuentas/PorPagar">Por Pagar</a></li>
-  		<li class="active"><a href="/Cuentas/PorCobrar" data-toggle="tab">Por Cobrar</a></li>
+      <li><a href="/Resumen">Resumen</a></li>
+      <li><a href="/Reportes/Ventas">Ventas</a></li>
+      <li><a href="/Reportes">Compras</a></li>
   	</div>
 </div>
 <div class="tab-content">
@@ -38,8 +41,9 @@
                   <td>${{$pc->total}}</td>
                   <td>${{$pc->abonado}}</td>
                   <td>${{$pc->total-$pc->abonado}}</td>
-                  <td><a href="/Cuentas/PorCobrar/Liquidar/{{$pc->id_ventas}}"><button class="btn btn-success">Liquidar</button></a>
+                  <td><a href="/Orden/PorCobrar/{{$pc->id_ventas}}" class="btn btn-info">Nota</a><a href="/Cuentas/PorCobrar/Liquidar/{{$pc->id_ventas}}"><button class="btn btn-success">Liquidar</button></a>
                     <a href="" data-target="#dialogo-abonar{{$pc->id_ventas}}" data-toggle="modal"><button class="btn btn-primary">Abonar</button></a>
+                    <a href=""></a>
                   </td>
                 </tr>
                 @include('Inventario.PorCobrar.Abonar')

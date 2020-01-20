@@ -5,7 +5,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <h2 class="page-header">
-                                <i class="fa fa-globe"></i> Orden
+                                <img src="/logo.svg" width="200">
                                 <small class="pull-right">Fecha: {{$Compra->fecha}}</small>
                             </h2>
                         </div><!-- /.col -->
@@ -57,8 +57,8 @@
                               <tr>
                                 <td>{{$car_m->tipo}}</td>
                                 <td>{{$car_m->nombre}}</td>
-                                <td>{{$car_m->cantidad}}</td>
-                                <td>${{$car_m->costo}}</td>
+                                <td><?= number_format($car_m->cantidad) ?></td>
+                                <td>$<?= number_format($car_m->costo) ?></td>
                               </tr>
                               @endforeach
                             </tbody>
@@ -81,8 +81,8 @@
                   						<tr>
                   							<td>{{$car_c->tipo}}</td>
                   							<td>{{$car_c->nombre}}</td>
-                  							<td>{{$car_c->cantidad}}</td>
-                  							<td>${{$car_c->costo}}</td>
+                  							<td>$<?= number_format($car_c->cantidad) ?></td>
+                  							<td>$<?= number_format($car_c->costo) ?></td>
                   						</tr>
                   						@endforeach
                   					</tbody>
@@ -95,20 +95,22 @@
                   					<thead>
                   						<tr>
                   							<th>Categoria</th>
-                  							<th>Nombre</th>
-                  							<th>Capacidad</th>
-                  							<th>Cantidad</th>
-                  							<th>Costo Total</th>
+                                <th>Nombre</th>
+                                <th>Capacidad</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th>Total</th>
                   						</tr>
                   					</thead>
                   					<tbody>
                   						@foreach($Botella as $car_b)
                   						<tr>
                   							<td>{{$car_b->categoria}}</td>
-                  							<td>{{$car_b->nombre}}</td>
-                  							<td>{{$car_b->capacidad}}</td>
-                  							<td>{{$car_b->cantidad}}</td>
-                  							<td>${{$car_b->costo}}</td>
+                                <td>{{$car_b->nombre}}</td>
+                                <td>{{$car_b->capacidad}}</td>
+                                <td>{{$car_b->cantidad}}</td>
+                                <td>$<?= number_format($car_b->costo) ?></td>
+                                <td>$<?= number_format($car_b->cantidad*$car_b->costo) ?></td>
                   						</tr>
                   						@endforeach
                   					</tbody>
@@ -129,15 +131,15 @@
                                     <tbody>
                                     <tr>
                                         <th>Total:</th>
-                                        <td>${{$Compra->total}}</td>
+                                        <td>$<?= number_format($Compra->total) ?></td>
                                     </tr>
                                     <tr>
                                       <th>Abonado:</th>
-                                      <td>${{$Compra->abonado}}</td>
+                                      <td>$<?= number_format($Compra->abonado) ?></td>
                                     </tr>
                                     <tr>
                                       <th><h4> <strong>Debe:</strong> </h4></th>
-                                      <td><h4>${{$Compra->total-$Compra->abonado}}</h4></td>
+                                      <td><h4>$<?= number_format($Compra->total-$Compra->abonado) ?></h4></td>
                                     </tr>
                                 </tbody></table>
                             </div>
@@ -147,8 +149,8 @@
                     <!-- this row will not appear when printing -->
                     <div class="row no-print">
                         <div class="col-xs-12">
-                            <button class="btn btn-default" onclick="window.print();"><i class="fa fa-print"></i> Imprimir</button>
-                            <button class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-download"></i> Generar PDF</button>
+                            <a href="/Orden/PorCobrar/Editar/{{$Compra->id_ventas}}"><button class="btn btn-default"><i class="fa fa-pencil"></i> Editar</button></a>
+                            <button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="window.print();"><i class="fa fa-download"></i> Generar PDF</button>
                             <a href="/Cuentas" class="btn btn-success">Hacer otro Abono</a>
                         </div>
                     </div>

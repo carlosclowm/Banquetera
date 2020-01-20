@@ -20,10 +20,8 @@
                     
                     var dhtml="";
                     data.forEach(function(element) {
-                      dhtml += '<li>'+'<a href="#"><div class="pull-left"><img src="../img/avatar2.png" class="img-circle" alt="user image"/></div>'+'<h4>'+element['titulo']+' <small><i class="fa fa-clock-o"></i>         {{cl->hace}}</small></h4><p>'+element['nota']+'</p>'+'</a>'+'</li>';
-                      console.log(element['hace']);
+                      dhtml += '<li>'+'<a href="#"><div class="pull-left"><img src="../img/avatar2.png" class="img-circle" alt="user image"/></div>'+'<h4>'+element['titulo']+' <small><i class="fa fa-clock-o"></i>'+element['hace']+'</small></h4><p>'+element['nota']+'</p>'+'</a>'+'</li>';
                     });
-
                     
                     $("#refrMenu").html(dhtml);
                     //console.log(data);
@@ -74,13 +72,13 @@
                                 <li>
                                     <!-- inner menu: contains the actual data -->
                                     <ul class="menu" name="refrMenu" id="refrMenu">
-                                        @foreach ($Calendario as $cl)
+                                       @foreach ($Calendario as $cl)
                                         <li><!-- start message -->
                                             <a href="#">
                                                 <h4>
                                                     {{$cl->titulo}}
                                                     <small><i class="fa fa-clock-o"></i>
-                                                        {{cl->hace}}
+                                                        
                                                     </small>
                                                 </h4>
                                                 <p>
@@ -173,11 +171,6 @@
                         </li>
                         </ul>
                         <ul class="sidebar-menu">
-                        <li>
-                        	<a href="/Cuentas">
-                        		<span>Cuentas</span>
-                        	</a>
-                        </li>
                         <li>
                         	<a href="/Reportes">
                         		<span>Reportes</span>

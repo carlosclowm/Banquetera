@@ -31,6 +31,14 @@ class MobiliarioController extends Controller
         $Mobiliario->save();
         return Redirect::to('/Inventario/Mobiliario');
     }
+    public function AgregarToVentas(MobiliarioRequest $res){
+        $Mobiliario = new Mobiliario;
+        $Mobiliario->tipo = $res->get('tipo');
+        $Mobiliario->nombre = $res->get('nombre');
+        $Mobiliario->existencia = 0;
+        $Mobiliario->save();
+        return Redirect::Back();
+    }
 
     public function MobiliarioEditar($id){
         $Mobiliario = Mobiliario::findOrFail($id);

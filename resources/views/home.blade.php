@@ -3,7 +3,6 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
       var DatosG = {!! json_encode($Grafica) !!};
-      console.log(DatosG);
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
       function drawChart() {

@@ -5,7 +5,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <h2 class="page-header">
-                                <i class="fa fa-globe"></i> Nota
+                                <img src="/logo.svg" width="200">
                                 <small class="pull-right">Fecha: {{$Compra->fecha}}</small>
                             </h2>
                         </div><!-- /.col -->
@@ -49,7 +49,8 @@
                                 <th>Tipo</th>
                                 <th>Nombre</th>
                                 <th>Cantidad</th>
-                                <th>Costo Total</th>
+                                <th>Costo</th>
+                                <th>Total</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -58,7 +59,8 @@
                                 <td>{{$car_m->tipo}}</td>
                                 <td>{{$car_m->nombre}}</td>
                                 <td>{{$car_m->cantidad}}</td>
-                                <td>${{$car_m->costo}}</td>
+                                <td>$<?= number_format($car_m->costo) ?></td>
+                                <td>$<?= number_format($car_m->costo*$car_m->cantidad) ?></td>
                               </tr>
                               @endforeach
                             </tbody>
@@ -73,7 +75,8 @@
                   							<th>Tipo</th>
                   							<th>Nombre</th>
                   							<th>Cantidad</th>
-                  							<th>Costo Total</th>
+                  							<th>Costo</th>
+                                <th>Total</th>
                   						</tr>
                   					</thead>
                   					<tbody>
@@ -82,7 +85,8 @@
                   							<td>{{$car_c->tipo}}</td>
                   							<td>{{$car_c->nombre}}</td>
                   							<td>{{$car_c->cantidad}}</td>
-                  							<td>${{$car_c->costo}}</td>
+                  							<td>$<?= number_format($car_c->costo) ?></td>
+                                <td>$<?= number_format($car_c->costo*$car_c->cantidad) ?></td>
                   						</tr>
                   						@endforeach
                   					</tbody>
@@ -98,7 +102,8 @@
                   							<th>Nombre</th>
                   							<th>Capacidad</th>
                   							<th>Cantidad</th>
-                  							<th>Costo Total</th>
+                  							<th>Costo</th>
+                                <th>Total</th>
                   						</tr>
                   					</thead>
                   					<tbody>
@@ -108,7 +113,8 @@
                   							<td>{{$car_b->nombre}}</td>
                   							<td>{{$car_b->capacidad}}</td>
                   							<td>{{$car_b->cantidad}}</td>
-                  							<td>${{$car_b->costo}}</td>
+                  							<td>$<?= number_format($car_b->costo) ?></td>
+                                <td>$<?= number_format($car_b->costo*$car_b->cantidad) ?></td>
                   						</tr>
                   						@endforeach
                   					</tbody>
@@ -139,8 +145,8 @@
                     <!-- this row will not appear when printing -->
                     <div class="row no-print">
                         <div class="col-xs-12">
-                            <button class="btn btn-default" onclick="window.print();"><i class="fa fa-print"></i> Imprimir</button>
-                            <button class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-download"></i> Generar PDF</button>
+                            <a href="/Nota/Editar/{{$Compra->id_compras}}"><button class="btn btn-default"><i class="fa fa-print"></i> Editar</button></a>
+                            <button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="window.print();"><i class="fa fa-download"></i> Generar PDF</button>
                             <a href="/Compras/Comprar" class="btn btn-success">Hacer Otra Compra</a>
                         </div>
                     </div>

@@ -17,6 +17,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/PruebaCorreo','CalendarioController@test');
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('logout', 'Auth\LoginController@logout', function () {
@@ -30,17 +32,23 @@ Route::post('/Calendario/Agregar', 'CalendarioController@Agregar');
 Route::get('/Inventario/Mobiliario', 'MobiliarioController@index');
 Route::get('/Inventario/Mobiliario/Nuevo', 'MobiliarioController@Nuevo');
 Route::post('/Inventario/Mobiliario/Nuevo/Agregar', 'MobiliarioController@Agregar');
+Route::post('/Inventario/Mobiliario/Nuevo/AgregarToVentas', 'MobiliarioController@AgregarToVentas');
 Route::get('/Inventario/Cocina', 'CocinaController@index');
 Route::get('/Inventario/Cocina/Nuevo', 'CocinaController@Nuevo');
 Route::post('/Inventario/Cocina/Nuevo/Agregar', 'CocinaController@Agregar');
+Route::post('/Inventario/Cocina/Nuevo/AgregarToVentas', 'CocinaController@AgregarToVentas');
 Route::get('/Inventario/Botellas', 'BotellasController@index');
 Route::get('/Inventario/Botellas/Nuevo', 'BotellasController@Nuevo');
 Route::post('/Inventario/Botellas/Nuevo/Agregar', 'BotellasController@Agregar');
+Route::post('/Inventario/Botellas/Nuevo/AgregarToVentas', 'BotellasController@AgregarToVentas');
 
 Route::get('/Compras/Comprar', 'ComprasController@Comprar');
-Route::post('/Compras/Comprar/AgregarMob', 'ComprasController@AgregarMob');
-Route::post('/Compras/Comprar/AgregarCos', 'ComprasController@AgregarCos');
-Route::post('/Compras/Comprar/AgregarBot', 'ComprasController@AgregarBot');
+Route::post('/Compras/Comprar/AgregarMob', 'ComprasController@AgregarMob')->name('car.PostMobC');
+Route::post('/Compras/Comprar/AgregarCos', 'ComprasController@AgregarCos')->name('car.PostCosC');
+Route::post('/Compras/Comprar/AgregarBot', 'ComprasController@AgregarBot')->name('car.PostBotC');
+Route::get('/Compras/Ver/Mob', 'ComprasController@GetMob')->name('car.GetMobC');
+Route::get('/Compras/Ver/Bot', 'ComprasController@GetBotellas')->name('car.GetBotC');
+Route::get('/Compras/Ver/Cos', 'ComprasController@GetCocina')->name('car.GetCosC');
 Route::delete('/Compras/Comprar/EliminarMob/{id}', 'ComprasController@EliminarMob');
 Route::delete('/Compras/Comprar/EliminarCos/{id}', 'ComprasController@EliminarCos');
 Route::delete('/Compras/Comprar/EliminarBot/{id}', 'ComprasController@EliminarBot');
@@ -51,15 +59,18 @@ Route::post('/Compras/Comprar/EditarCostoBot', 'ComprasController@EditarCostoBot
 Route::get('/Nota/{id}', 'ComprasController@NotaCompra');
 
 Route::get('/Ventas/Vender', 'VentasController@Vender');
-Route::post('/Ventas/Vender/AgregarMob', 'VentasController@AgregarMob');
-Route::post('/Ventas/Vender/AgregarCos', 'VentasController@AgregarCos');
-Route::post('/Ventas/Vender/AgregarBot', 'VentasController@AgregarBot');
+Route::post('/Ventas/Vender/AgregarMob', 'VentasController@AgregarMob')->name('car.PostMob');
+Route::post('/Ventas/Vender/AgregarCos', 'VentasController@AgregarCos')->name('car.PostCos');
+Route::post('/Ventas/Vender/AgregarBot', 'VentasController@AgregarBot')->name('car.PostBot');
+Route::get('/Ventas/Ver/Mob', 'VentasController@GetMob')->name('car.GetMob');
+Route::get('/Ventas/Ver/Bot', 'VentasController@GetBotellas')->name('car.GetBot');
+Route::get('/Ventas/Ver/Cos', 'VentasController@GetCocina')->name('car.GetCos');
 Route::post('/Ventas/Vender/EditarCostoMob', 'VentasController@EditarCostoMob');
 Route::post('/Ventas/Vender/EditarCostoCos', 'VentasController@EditarCostoCos');
 Route::post('/Ventas/Vender/EditarCostoBot', 'VentasController@EditarCostoBot');
-Route::delete('/Ventas/Vender/EliminarMob/{id}', 'VentasController@EliminarMob');
-Route::delete('/Ventas/Vender/EliminarCos/{id}', 'VentasController@EliminarCos');
-Route::delete('/Ventas/Vender/EliminarBot/{id}', 'VentasController@EliminarBot');
+Route::get('/Ventas/Vender/EliminarMob/{id}', 'VentasController@EliminarMob');
+Route::get('/Ventas/Vender/EliminarCos/{id}', 'VentasController@EliminarCos');
+Route::get('/Ventas/Vender/EliminarBot/{id}', 'VentasController@EliminarBot');
 Route::get('/Ventas/Vender/Realizar/{id}', 'VentasController@Realizar');
 Route::get('/Orden/{id}', 'VentasController@OrdenVenta');
 
@@ -121,6 +132,40 @@ Route::post('Inventario/Cocina/Edit', 'CocinaController@CocinaEdit');
 
 Route::get('/Inventario/Mobiliario/Editar/{id}', 'MobiliarioController@MobiliarioEditar');
 Route::post('Inventario/Mobiliario/Edit', 'MobiliarioController@MobiliarioEdit');
+
+Route::get('/Orden/GetTotalVendido/{id}', 'VentasController@GetTotalVendido');
+
+
+Route::get('/Orden/Editar/{id}', 'VentasController@EditarOrdenVenta');
+
+Route::post('/Orden/Editar/Guardar', 'VentasController@EditarOrdenVentaGuardar')->name('Factura.PutMob');
+Route::post('/Orden/Eliminar', 'VentasController@EditarOrdenVentaEliminar');
+
+Route::post('/Orden/EditarCos/Guardad', 'VentasController@EditarOrdenCos')->name('Factura.PutCos');
+Route::post('/Orden/EliminarCos/', 'VentasController@EditarOrdenCosDel');
+
+Route::post('/Orden/EditarBot/Guardad', 'VentasController@EditarOrdenBot')->name('Factura.PutBot');
+Route::post('/Orden/EliminarBot/', 'VentasController@EditarOrdenBotDel');
+
+Route::post('/Orden/PorCobrar/Editar/Guardar', 'VentasController@EditarOrdenVentaGuardarCobrar')->name('Factura.PutMobCobrar');
+Route::post('/Orden/PorCobrar/Eliminar', 'VentasController@EditarOrdenVentaEliminarCobrar');
+
+Route::post('/Orden/PorCobrar/EditarCos/Guardad', 'VentasController@EditarOrdenCosCobrar')->name('Factura.PutCosCobrar');
+Route::post('/Orden/PorCobrar/EliminarCos/', 'VentasController@EditarOrdenCosDelCobrar');
+
+Route::post('/Orden/PorCobrar/EditarBot/Guardad', 'VentasController@EditarOrdenBotCobrar')->name('Factura.PutBotCobrar');
+Route::post('/Orden/PorCobrar/EliminarBot/', 'VentasController@EditarOrdenBotDelCobrar');
+
+Route::get('/Orden/Eliminar/{id}', 'ReportesController@EliminarVenta');
+Route::get('/Mover/Venta/PorCobrar/{id}', 'ReportesController@MoverVentaPorCobrar');
+
+Route::get('/Orden/PorCobrar/Editar/{id}', 'VentasController@EditarOrdenCobrar');
+Route::get('/Mover/PorCobrar/Venta/{id}', 'ReportesController@MoverPorCobrarVenta');
+
+Route::get('/Orden/GetTotalVendidoCobrar/{id}', 'VentasController@GetTotalVendidoCobrar');
+Route::get('/Nota/Eliminar/{id}', 'ReportesController@EliminarCompra');
+
+Route::get('/Nota/Editar/{id}', 'ComprasController@EditarNotaCompra'); 
 
 Route::get('/clear-cache', function() {
     $exitCode = Artisan::call('config:clear');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use DB;
 
 class HomeController extends Controller
@@ -24,7 +25,7 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $request->user()->authorizeRoles(['Empleado', 'ADM']);
+        $request->user()->authorizeRoles(['Empleado', 'ADM', 'Cliente']);
         if($request->user()->hasRole('ADM')){
           $now = new \DateTime();
           $var = [];
@@ -62,6 +63,21 @@ class HomeController extends Controller
         }
         if($request->user()->hasRole('Empleado')){
             return "Mantenimiento";
+        }if($request->user()->hasRole('Cliente')){
+          $Calendar = DB::table('calendario')->where('usuario','=',Auth::user()->id)->get();
+      $Tareas = array();
+      foreach ($Calendar as $cl) {
+        $Color = "";
+        if($cl->estado == "success"){
+          $Color = "#00a65a";
+        }if($cl->estado == "warning"){
+          $Color = "#f39c12";
+        }if($cl->estado == "danger"){
+          $Color = "#f56954";
+        }
+        array_push($Tareas, ['title'=>$cl->titulo, 'start'=>$cl->fecha, 'backgroundColor'=>$Color, 'borderColor'=>$Color, 'name'=>$cl->nota]);
+      }
+          return view('Clientes.home', ['Tareas'=>json_encode($Tareas)]);
         }
 
     }

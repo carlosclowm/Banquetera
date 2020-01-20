@@ -38,16 +38,26 @@ class ComprasController extends Controller
       //total
       $Total = 0;
       foreach($Carrito_Mob as $Mob){
-        $Total = $Total + $Mob->costo;
-      }
-      foreach($Carrito_Cos as $Cos){
-        $Total = $Total + $Cos->costo;
-      }
-      foreach($Carrito_Bot as $Bot){
-        $Total = $Total + $Bot->costo;
-      }
+          $Total = $Total + ($Mob->costo*$Mob->cantidad);
+        }
+        foreach($Carrito_Cos as $Cos){
+          $Total = $Total + ($Cos->costo*$Cos->cantidad);
+        }
+        foreach($Carrito_Bot as $Bot){
+          $Total = $Total + ($Bot->costo*$Bot->cantidad);
+        }
     	return view('Inventario.Compras.Comprar', ['Mobiliario'=>$Mobiliario, 'Cocina'=>$Cocina, 'Botella'=>$Botella,
       'Carrito_Mob'=>$Carrito_Mob, 'Carrito_Cos'=>$Carrito_Cos, 'Carrito_Bot'=>$Carrito_Bot, 'Total'=>$Total, 'Proveedores'=>$Proveedor]);
+    }
+
+    public function GetBotellas(){
+      return DB::table('carrito_botellas')->where('token','=',csrf_token())->where('seccion','=','Compras')->get();
+    }
+    public function GetCocina(){
+      return DB::table('carrito_cocina')->where('token','=',csrf_token())->where('seccion','=','Compras')->get();
+    }
+    public function GetMob(){
+      return DB::table('carrito_mobiliario')->where('token','=',csrf_token())->where('seccion','=','Compras')->get();
     }
     public function AgregarMob(Request $res){
     	$Mobiliario = Mobiliario::findOrFail($res->get('id'));
@@ -190,7 +200,8 @@ class ComprasController extends Controller
         $Compra->fecha = $Fecha;
         $Compra->total = $Total;
         $Compra->save();
-        return view('Factura.Compra', ['Factura'=>$Compra]);
+       // return $Compra;
+       return view('Factura.Compra', ['Factura'=>$Compra]);
 
       }else{
         return Redirect::back()->withErrors('El Carrito Esta Vacio');
@@ -314,13 +325,13 @@ class ComprasController extends Controller
         //total
         $Total = 0;
         foreach($Carrito_Mob as $Mob){
-          $Total = $Total + $Mob->costo;
+          $Total = $Total + ($Mob->costo*$Mob->cantidad);
         }
         foreach($Carrito_Cos as $Cos){
-          $Total = $Total + $Cos->costo;
+          $Total = $Total + ($Cos->costo*$Cos->cantidad);
         }
         foreach($Carrito_Bot as $Bot){
-          $Total = $Total + $Bot->costo;
+          $Total = $Total + ($Bot->costo*$Bot->cantidad);
         }
         //endtotal
         $Compra = new Devoluciones;
@@ -338,9 +349,9 @@ class ComprasController extends Controller
     public function NotaDevuelto($Factura){
       $Compra = Devoluciones::findOrFail($Factura);
       $Proveedor = DB::table('proveedores')->where('id_proveedor','=',$Compra->id_proveedor)->first();
-      $CompraMob = DB::table('compra_mob')->where('id_factura','=',$Factura)->where('estado','=','Devuelto')->get();
-      $CompraCos = DB::table('compra_cos')->where('id_factura','=',$Factura)->where('estado','=','Devuelto')->get();
-      $CompraBot = DB::table('compra_bot')->where('id_factura','=',$Factura)->where('estado','=','Devuelto')->get();
+      $CompraMob = DB::table('dev_mob')->where('id_factura','=',$Factura)->where('estado','=','Devuelto')->get();
+      $CompraCos = DB::table('dev_cos')->where('id_factura','=',$Factura)->where('estado','=','Devuelto')->get();
+      $CompraBot = DB::table('dev_bot')->where('id_factura','=',$Factura)->where('estado','=','Devuelto')->get();
       return view('Factura.DevolucionFactura', ['Compra'=>$Compra, 'Mobiliario'=>$CompraMob, 'Cocina'=>$CompraCos, 'Botella'=>$CompraBot, 'Proveedor'=>$Proveedor]);
     }
 
@@ -446,5 +457,15 @@ class ComprasController extends Controller
       $CompraCos = DB::table('compra_cos')->where('id_factura','=',$Factura)->where('estado','=','PorPagar')->get();
       $CompraBot = DB::table('compra_bot')->where('id_factura','=',$Factura)->where('estado','=','PorPagar')->get();
       return view('Factura.CompraFacturaPorPagar', ['Compra'=>$Compra, 'Mobiliario'=>$CompraMob, 'Cocina'=>$CompraCos, 'Botella'=>$CompraBot, 'Proveedor'=>$Proveedor]);
+    }
+
+    
+    public function EditarNotaCompra($Factura){
+      $Compra = Compras::findOrFail($Factura);
+      $Proveedor = DB::table('proveedores')->where('id_proveedor','=',$Compra->id_proveedor)->first();
+      $CompraMob = DB::table('compra_mob')->where('id_factura','=',$Factura)->where('estado','=','Comprado')->get();
+      $CompraCos = DB::table('compra_cos')->where('id_factura','=',$Factura)->where('estado','=','Comprado')->get();
+      $CompraBot = DB::table('compra_bot')->where('id_factura','=',$Factura)->where('estado','=','Comprado')->get();
+      return view('Factura.Editor.CompraOrden', ['Compra'=>$Compra, 'Mobiliario'=>$CompraMob, 'Cocina'=>$CompraCos, 'Botella'=>$CompraBot, 'Proveedor'=>$Proveedor]);
     }
 }

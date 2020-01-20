@@ -26,13 +26,13 @@
 		<label>Domicilio</label>
 		<div class="input-group">
 			<span class="input-group-addon"><i class="fa fa-tags"></i></span>
-			<input type="text" name="domicilio" class="form-control" value="{{$Cliente->domicilio}}" required>
+			<input type="text" name="domicilio" class="form-control" value="{{$Cliente->domicilio}}">
 		</div>
 		<br>
 		<label>Telefono</label>
 		<div class="input-group">
 			<span class="input-group-addon"><i class="fa fa-tags"></i></span>
-			<input type="text" name="telefono" class="form-control" value="{{$Cliente->telefono}}" required>
+			<input type="text" name="telefono" class="form-control" value="{{$Cliente->telefono}}">
 		</div>
     <br>
     <label>Correo</label>

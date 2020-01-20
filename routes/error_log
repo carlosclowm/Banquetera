@@ -1,4 +1,0 @@
-[02-Jul-2019 01:30:34 UTC] PHP Fatal error:  Uncaught Error: Class 'Route' not found in /home/joluapco/public_html/toriba/routes/web.php:14
-Stack trace:
-#0 {main}
-  thrown in /home/joluapco/public_html/toriba/routes/web.php on line 14

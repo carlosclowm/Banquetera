@@ -4,9 +4,11 @@
 <div class="nav-tabs-custom">
     <div class="nav nav-tabs pull-right">
   		<li class="pull-left header">Resumen Reportes</li>
+        <li><a href="/Cuentas">Por Cobrar</a></li>
+      <li><a href="/Cuentas/PorPagar">Por Pagar</a></li>
       	<li class="active"><a href="/Resumen">Resumen</a></li>
   		<li><a href="/Reportes/Ventas">Ventas</a></li>
-  		<li><a href="/Reportes" data-toggle="tab">Compras</a></li>
+  		<li><a href="/Reportes">Compras</a></li>
   	</div>
 
 </div>

@@ -1,3 +1,4 @@
+@if(auth()->user()->hasRole('ADM'))
 <!DOCTYPE html>
 <html>
     <head>
@@ -32,9 +33,8 @@
                     
                     var dhtml="";
                     data.forEach(function(element) {
-                      dhtml += '<li>'+'<a href="#"><div class="pull-left"><img src="../img/avatar2.png" class="img-circle" alt="user image"/></div>'+'<h4>'+element['titulo']+' <small><i class="fa fa-clock-o"></i>         {{cl->hace}}</small></h4><p>'+element['nota']+'</p>'+'</a>'+'</li>';
+                      dhtml += '<li>'+'<a href="#"><div class="pull-left"><img src="../img/avatar2.png" class="img-circle" alt="user image"/></div>'+'<h4>'+element['titulo']+' <small><i class="fa fa-clock-o"></i>'+element['hace']+'</small></h4><p>'+element['nota']+'</p>'+'</a>'+'</li>';
                     });
-                    console.log(test);
                     
                     $("#refrMenu").html(dhtml);
                     //console.log(data);
@@ -269,7 +269,7 @@
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->
 
-
+@include('Calendario.VerTarea')
         <!-- jQuery 2.0.2 -->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
         <!-- jQuery UI 1.10.3 -->
@@ -318,6 +318,11 @@
                         m = date.getMonth(),
                         y = date.getFullYear();
                 $('#calendar').fullCalendar({
+                    timeZone: 'America/Mexico_City',
+                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
                     header: {
                         left: 'prev,next today',
                         center: 'title',
@@ -333,6 +338,12 @@
                     },
                     //Random default events
                     events: tsk,
+                    eventClick: function(info) {
+                        $("#TareaTitulo").html(info.title);
+                        $("#TareaNota").html(info.name);
+                        $("#TareaFecha").html(info.start.getDate()+"/"+info.start.getMonth()+"/"+info.start.getFullYear()+"  "+info.start.getHours()+":"+info.start.getMinutes()+":"+info.start.getSeconds());
+                        $("#dialogo-ver-tarea").modal();
+                      },
                     editable: true,
                     droppable: true, // this allows things to be dropped onto the calendar !!!
                     drop: function(date, allDay) { // this function is called when something is dropped
@@ -400,3 +411,10 @@
 
     </body>
 </html>
+@else
+
+<?php
+header("Location: /home");
+exit;
+?>
+@endif

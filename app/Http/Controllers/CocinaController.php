@@ -29,6 +29,14 @@ class CocinaController extends Controller
     	$Cocina->save();
     	return Redirect::to('/Inventario/Cocina');
     }
+    public function AgregarToVentas(CocinaRequest $res){
+        $Cocina = new Cocina;
+        $Cocina->tipo = $res->get('tipo');
+        $Cocina->nombre = $res->get('nombre');
+        $Cocina->existencia = 0;
+        $Cocina->save();
+        return Redirect::Back();
+    }
 
     public function CocinaEditar($id){
         $Cocina = Cocina::findOrFail($id);

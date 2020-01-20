@@ -31,7 +31,7 @@
                 </div>
                 <div class="footer">
                     <button type="submit" class="btn bg-olive btn-block">{{ __('Ingresar') }}</button>
-
+                    <a href="/register" class="text-center">Registrarte</a>
                 </div>
             </form>
         </div>

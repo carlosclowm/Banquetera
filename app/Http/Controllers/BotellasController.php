@@ -30,6 +30,15 @@ class BotellasController extends Controller
     	$Botella->save();
     	return Redirect::to('/Inventario/Botellas');
     }
+    public function AgregarToVentas(BotellasRequest $res){
+        $Botella = new Botellas;
+        $Botella->categoria = $res->get('categoria');
+        $Botella->nombre = $res->get('nombre');
+        $Botella->capacidad = $res->get('capacidad');
+        $Botella->existencia = 0;
+        $Botella->save();
+        return Redirect::Back();
+    }
 
     public function BotellaEditar($id){
         $Botella = Botellas::findOrFail($id);

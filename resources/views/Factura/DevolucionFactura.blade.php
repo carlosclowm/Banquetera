@@ -5,7 +5,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <h2 class="page-header">
-                                <i class="fa fa-globe"></i> Nota
+                                <img src="/logo.svg" width="200">
                                 <small class="pull-right">Fecha: {{$Compra->fecha}}</small>
                             </h2>
                         </div><!-- /.col -->
@@ -53,7 +53,8 @@
                                 <th>Tipo</th>
                                 <th>Nombre</th>
                                 <th>Cantidad</th>
-                                <th>Costo Total</th>
+                                <th>Costo</th>
+                                <th>Total</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -62,7 +63,8 @@
                                 <td>{{$car_m->tipo}}</td>
                                 <td>{{$car_m->nombre}}</td>
                                 <td>{{$car_m->cantidad}}</td>
-                                <td>${{$car_m->costo}}</td>
+                                <td>$<?= number_format($car_m->costo) ?></td>
+                                <td>$<?= number_format($car_m->costo*$car_m->cantidad) ?></td>
                               </tr>
                               @endforeach
                             </tbody>
@@ -72,51 +74,55 @@
                           @if($Cocina->count() > 0)
                           <label for="">Cocina</label>
                           <table class="table table-striped">
-                  					<thead>
-                  						<tr>
-                  							<th>Tipo</th>
-                  							<th>Nombre</th>
-                  							<th>Cantidad</th>
-                  							<th>Costo Total</th>
-                  						</tr>
-                  					</thead>
-                  					<tbody>
-                  						@foreach($Cocina as $car_c)
-                  						<tr>
-                  							<td>{{$car_c->tipo}}</td>
-                  							<td>{{$car_c->nombre}}</td>
-                  							<td>{{$car_c->cantidad}}</td>
-                  							<td>${{$car_c->costo}}</td>
-                  						</tr>
-                  						@endforeach
-                  					</tbody>
-                  				</table>
+                            <thead>
+                              <tr>
+                                <th>Tipo</th>
+                                <th>Nombre</th>
+                                <th>Cantidad</th>
+                                <th>Costo</th>
+                                <th>Total</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              @foreach($Cocina as $car_c)
+                              <tr>
+                                <td>{{$car_c->tipo}}</td>
+                                <td>{{$car_c->nombre}}</td>
+                                <td>{{$car_c->cantidad}}</td>
+                                <td>$<?= number_format($car_c->costo) ?></td>
+                                <td>$<?= number_format($car_c->costo*$car_c->cantidad) ?></td>
+                              </tr>
+                              @endforeach
+                            </tbody>
+                          </table>
                           <hr>
                           @endif
                           @if($Botella->count() > 0)
                           <label for="">Vinos y Licores</label>
                           <table class="table table-striped">
-                  					<thead>
-                  						<tr>
-                  							<th>Categoria</th>
-                  							<th>Nombre</th>
-                  							<th>Capacidad</th>
-                  							<th>Cantidad</th>
-                  							<th>Costo Total</th>
-                  						</tr>
-                  					</thead>
-                  					<tbody>
-                  						@foreach($Botella as $car_b)
-                  						<tr>
-                  							<td>{{$car_b->categoria}}</td>
-                  							<td>{{$car_b->nombre}}</td>
-                  							<td>{{$car_b->capacidad}}</td>
-                  							<td>{{$car_b->cantidad}}</td>
-                  							<td>${{$car_b->costo}}</td>
-                  						</tr>
-                  						@endforeach
-                  					</tbody>
-                  				</table>
+                            <thead>
+                              <tr>
+                                <th>Categoria</th>
+                                <th>Nombre</th>
+                                <th>Capacidad</th>
+                                <th>Cantidad</th>
+                                <th>Costo</th>
+                                <th>Total</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              @foreach($Botella as $car_b)
+                              <tr>
+                                <td>{{$car_b->categoria}}</td>
+                                <td>{{$car_b->nombre}}</td>
+                                <td>{{$car_b->capacidad}}</td>
+                                <td>{{$car_b->cantidad}}</td>
+                                <td>$<?= number_format($car_b->costo) ?></td>
+                                <td>$<?= number_format($car_b->costo*$car_b->cantidad) ?></td>
+                              </tr>
+                              @endforeach
+                            </tbody>
+                          </table>
                           @endif
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -143,8 +149,7 @@
                     <!-- this row will not appear when printing -->
                     <div class="row no-print">
                         <div class="col-xs-12">
-                            <button class="btn btn-default" onclick="window.print();"><i class="fa fa-print"></i> Imprimir</button>
-                            <button class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-download"></i> Generar PDF</button>
+                            <button class="btn btn-primary pull-right" style="margin-right: 5px;" onclick="window.print();"><i class="fa fa-download"></i> Generar PDF</button>
                             <a href="/Compras/Devolver" class="btn btn-success">Hacer Otra Devolucion</a>
                         </div>
                     </div>
